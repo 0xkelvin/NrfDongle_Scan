@@ -1,1 +1,59 @@
-# NrfDongle_Scan
+# nRF52840 - Beacon scanner #
+
+This is a Bluetooth 5 advertisements' scanner developed for [nRF52840 Dongle](https://www.nordicsemi.com/eng/Products/nRF52840-Dongle) and [nRF52840 Development Kit](https://www.nordicsemi.com/eng/Products/nRF52840-DK).
+
+This application captures advertisements with extended advertising and longe range characteristic activated.
+
+The application sends the captured advertisements through serial port.
+
+This repository is part of [MOTAM project](https://www.nics.uma.es/projects/motam). This reads advertisements and filters it in order to show by serial port only the authenticated MOTAM beacons. nRF52840 will be connected by USB port to the [MOTAM gateway](https://github.com/nicslabdev/MOTAM-Gateway). MOTAM beacons report on the state of the environment, so the gateway will collect this information. By default, this application will show PHY Coded advertisements.
+
+## Requeriments
+
+This project uses:
+-   nRF5 SDK version 15.3.0
+-   S140 SoftDevice v6.1.1 API
+-   nRF52840 Dongle (PCA10059) or nRF52840 PDK (PCA10056)
+
+## Get started
+
+You can find a hex folder with the **precompiled applications** for PCA10056 and PCA10059.
+
+In order to program the application on the nRF52840, you can use [nRF Connect application for Desktop](https://www.nordicsemi.com/eng/Products/Bluetooth-low-energy/nRF-Connect-for-Desktop) from Nordic Semiconductor or nrfjprog (just in case you are using nRF52840 Development Kit).
+
+> Note: This application uses S140 SoftDevice, so don't forget program
+> SoftDevice hex file (you can find it in hex folder).
+
+In order to stablish serial connection with your PC, you can use PUTTY if you are a Windows user or GNU Screen if you are a Linux user.
+
+**PUTTY connection parameters:**
+
+    Baud rate: 115.200
+    8 data bits
+    1 stop bit
+    No parity
+    HW flow control: None
+
+**GNU screen**
+
+    sudo screen /dev/ttyACM0 115200
+    
+Where */dev/ttyACM0* is the nRF52840 device. You can know what is the path of your nRF52840 connecting it and executing *dmesg* on UNIX terminal.
+
+In case you are working on nRF52840 Development Kit:
+
+- Use nRF USB connector (J3 connector) for **beacon scanner function**.
+- Use MCU USB connector (J2 connector) in order to see logger messages.
+
+## Compiling the applications
+
+If you modify the code and you need to recompile the code, put the folders inside nRF52 into
+	
+	\nRF5_SDK_15.3.0\MOTAM_apps folder.
+	
+
+There are several ways for developing code in nRF52, we have done this with SEGGER Embedded Studio for ARM V4.12.
+
+## To Do
+
+- Integration of cryptographic signature verification
