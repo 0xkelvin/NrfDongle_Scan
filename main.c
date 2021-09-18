@@ -180,7 +180,7 @@ static ble_gap_scan_params_t m_scan_param =					// Scan parameters requested for
     .window                             = SCAN_WINDOW,
     .filter_policy                      = BLE_GAP_SCAN_FP_ACCEPT_ALL,
     .timeout                            = SCAN_DURATION,
-    .scan_phys                          = BLE_GAP_PHY_CODED,                    // Here you can select the PHY (BLE_GAP_PHY_CODED or BLE_GAP_PHY_1MBPS)
+    .scan_phys                          = BLE_GAP_PHY_1MBPS,                    // Here you can select the PHY (BLE_GAP_PHY_CODED or BLE_GAP_PHY_1MBPS)
     .extended                           = 1,
 };
 
