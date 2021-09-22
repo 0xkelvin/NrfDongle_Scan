@@ -207,24 +207,34 @@ static void scan_evt_handler(scan_evt_t const * p_scan_evt)
         case NRF_BLE_SCAN_EVT_NOT_FOUND:
         {
             
-            int i;                                                              // Index for loop
+            int i,j;                                                              // Index for loop
             uint8_t * p_data = p_scan_evt->params.p_not_found->data.p_data;     // Pointer to packet data
+            uint8_t * p_addr = p_scan_evt->params.p_not_found->peer_addr.addr;
             int data_len = p_scan_evt->params.p_not_found->data.len;            // Packet data length
 
             // Filtering MOTAM advertisements
-            if (p_data[1] == 0xFF && p_data[2] == 0xBE && p_data [3] == 0x5E)
+            if (p_data[5] == 0x99)//p_data[1] == 0xFF && p_data[2] == 0xBE && p_data [3] == 0x5E)
             {
                 sprintf(m_tx_buffer,"1-");
 
                 // Conversion from byte string to hexadecimal char string
-                for (i = 0; i < data_len-64; i++ )
+                for (i = 0; i < data_len; i++ )
                 {
                     sprintf(&m_tx_buffer[(i*2)+2], "%02x", p_data[i]);
                 }
-                sprintf(&m_tx_buffer[(i*2)+2], "\r\n");
+
+                sprintf(&m_tx_buffer[(i*2)+2],"-");
+        
+
+                for (j = 0; j < 6; j++ )
+                {
+                    sprintf(&m_tx_buffer[(i*2)+2+1+(j*2)], "%02x", p_addr[j]);
+                }
+                
+                sprintf(&m_tx_buffer[(i*2)+2+1+(j*2)], "\r\n");
 
                 // Send the hexadecimal char string by serial port
-                app_usbd_cdc_acm_write(&m_app_cdc_acm, m_tx_buffer, (i*2)+2+2);
+                app_usbd_cdc_acm_write(&m_app_cdc_acm, m_tx_buffer, (i*2)+2+1+(j*2)+2);
             }
         }
         break;
